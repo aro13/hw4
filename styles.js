@@ -3,14 +3,14 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#B4D5FF',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
   inputBox: {
-    width: 300, 
-    height: 40, 
-    borderBottomWidth: 1, 
+    width: 300,
+    height: 40,
+    borderBottomWidth: 1,
     marginBottom: 20,
     padding: 5,
     textAlign: 'center'
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default styles; 
+export default styles;

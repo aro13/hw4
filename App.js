@@ -69,9 +69,10 @@ export default class App extends React.Component {
     // manipulate state
     this.setState({
       locationName: response.location,
-      currentTemperature: response.weather.currently.temperature,
+      currentTemperature: Math.round(response.weather.currently.temperature),
       currentIcon: response.weather.currently.icon,
-      currentSummary: response.weather.currently.summary
+      currentSummary: response.weather.currently.summary,
+      forecast: response.weather.daily.data
     });
   }
 
@@ -82,19 +83,25 @@ export default class App extends React.Component {
     //    currentTemperature, currentSummary)
     // 3. Forecast (forecastDay, forecastIcon, forecastTemperature)
     let forecast = []; // this will eventually hold the JSX elements for each day
+    for(let i=0; i<5; i++){
+            let forecastDay=i;
+            let forecastIcon=<Text style={styles.forecastIcon}>{this.state.forecast[i] && (<Icon size={45} color="#4DB6FF" name={icon(this.state.forecast[i].icon)} />)}</Text>
+            let forecastTemp=<Text>{this.state.forecast[i] && (<Text style={styles.forecastTemperature}>{Math.round(this.state.forecast[i].temperatureHigh)}</Text>)}</Text>
+            forecast.push(<View style={styles.forecastDay} key={forecastDay}>{forecastIcon}{forecastTemp}</View>)
+}
 
     return (
       <View style={styles.container}>
         <View>
-          <TextInput style={{width: 150, height: 40, borderColor: 'gray', borderWidth: 1}} onChangeText={(text) => this.textInputChanged(text)} />
+          <TextInput style={{width: 200, height: 40, borderColor: "#FF6967", borderWidth: 3}} onChangeText={(text) => this.textInputChanged(text)} />
           <Button onPress={() => this.getWeather()} title="Get the weather!" />
         </View>
         <View style={styles.currentWeather}>
           {/* Current weather conditions */}
-          <Text style={styles.currentIcon}><Icon name="{this.state.currentIcon}" size={100} color="#4DB6FF" /></Text>
-          <Text style={styles.locationText}>{this.state.locationName}</Text>
-          <Text style={styles.locationText}>{this.state.currentTemperature}</Text>
-          <Text style={styles.locationText}>{this.state.currentSummary}</Text>
+            <Text style={styles.currentIcon}>{this.state.currentIcon && (<Icon name={icon(this.state.currentIcon)} size={100} color="#FF6967"/>)}</Text>
+           <Text style={styles.locationText}>{this.state.locationName}</Text>
+           <Text style={styles.locationText}>{this.state.currentTemperature}</Text>
+           <Text style={styles.locationText}>{this.state.currentSummary}</Text>
         </View>
         <View style={styles.forecast}>
           {forecast}
